@@ -11,8 +11,6 @@
 #include <functional>
 #include <ctime>
 #include <chrono>
-#include "Graph.h"
-#include "CppFuns.h"
 #include "Keep_order.h"
 
 using namespace std;

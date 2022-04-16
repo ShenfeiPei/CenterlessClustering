@@ -1,11 +1,6 @@
-import os
-import sys
 import time
 import numpy as np
-import scipy.io as sio
 import funs as Ifuns, funs_graph as Gfuns, funs_metric as Mfuns
-import toy_generate
-import matplotlib.pyplot as plt
 
 from KSUMS2 import KSUMS
 from KSUMSX_eigen import KSUMSX

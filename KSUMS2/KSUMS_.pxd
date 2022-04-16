@@ -1,9 +1,7 @@
 from libcpp.vector cimport vector
 from libcpp cimport bool
 
-from Public.CppFuns.Keep_order_ cimport Keep_order
-
-from Public.CppFuns.Graph_ cimport Graph
+from Keep_order_ cimport Keep_order
 
 cdef extern from "KSUMS.cpp":
     pass

@@ -74,16 +74,16 @@ def gen_grid(rc, num, knn):
     return X, y, NN, NND, t
 
 # version 2
-rcs = list([[50, 100], [100, 100], [100, 200]])
-nums = list([100000, 200000, 300000])
-cou = 0
-for num in nums:
-    for rc in rcs:
-        c_true = int(rc[0] * rc[1])
-        knn = int(num / c_true * 1.2)
-        cou += 1
-        X, y, NN, NND, t = gen_grid(rc, num, knn)
-        save(X, y, NN, NND, knn, t, f"./toydata/D{cou}_autoknn.mat")
+# rcs = list([[50, 100], [100, 100], [100, 200]])
+# nums = list([100000, 200000, 300000])
+# cou = 0
+# for num in nums:
+#     for rc in rcs:
+#         c_true = int(rc[0] * rc[1])
+#         knn = int(num / c_true * 1.2)
+#         cou += 1
+#         X, y, NN, NND, t = gen_grid(rc, num, knn)
+#         save(X, y, NN, NND, knn, t, f"./data/D{cou}_autoknn.mat")
 
 
 # name = "D1"
