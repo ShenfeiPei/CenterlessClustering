@@ -1,8 +1,44 @@
 import setuptools  # noqa
+from distutils.command.clean import clean as Clean
 import os
+import shutil
 from numpy.distutils.core import setup
 from distutils.command.sdist import sdist
 from numpy.distutils.misc_util import Configuration
+
+module_name = "alias_copyi_module_CenterlessClustering"
+
+class CleanCommand(Clean):
+    description = "Remove build artifacts from the source tree"
+
+    def run(self):
+        Clean.run(self)
+        # Remove c files if we are not within a sdist package
+        cwd = os.path.abspath(os.path.dirname(__file__))
+        remove_c_files = not os.path.exists(os.path.join(cwd, 'PKG-INFO'))
+        if remove_c_files:
+            print('Will remove generated .c files')
+        if os.path.exists('build'):
+            shutil.rmtree('build')
+        
+        egg_info_path = f"{module_name}.egg-info"
+        if os.path.exists(egg_info_path):
+            shutil.rmtree(egg_info_path)
+
+        for dirpath, dirnames, filenames in os.walk(module_name):
+            for filename in filenames:
+                if any(filename.endswith(suffix) for suffix in
+                       (".so", ".pyd", ".dll", ".pyc")):
+                    os.unlink(os.path.join(dirpath, filename))
+                    continue
+                extension = os.path.splitext(filename)[1]
+                if remove_c_files and extension in ['.c', '.cpp']:
+                    pyx_file = str.replace(filename, extension, '.pyx')
+                    if os.path.exists(os.path.join(dirpath, pyx_file)):
+                        os.unlink(os.path.join(dirpath, filename))
+            for dirname in dirnames:
+                if dirname == '__pycache__':
+                    shutil.rmtree(os.path.join(dirpath, dirname))
 
 
 def configuration(parent_package='', top_path=None):
@@ -15,39 +51,29 @@ def configuration(parent_package='', top_path=None):
                        assume_default_configuration=True,
                        delegate_options_to_subpackages=True,
                        quiet=True)
-    config.add_subpackage('KSUMS2')
-    # config.add_subpackage('KSUMSX')
-    # config.add_subpackage('KSUMSXP')
-    config.add_subpackage('KSUMSX_eigen')
-    # config.add_subpackage('Public')
+    config.add_subpackage(module_name)
     return config
 
 
-# with open("README.md", "r") as fh:
-#     long_description = fh.read()
-
-setup(name="KSUMS2",
+setup(name=module_name,
       version="0.0.1",
       author="Shenfei Pei",
       author_email="shenfeipei@gmail.com",
-      description="A Python module for machine learning",
-      # long_description=long_description,
-      # long_description_content_type="text/markdown",
-      url="https://github.com/ShenfeiPei/KSUMS",
-      install_requires=['numpy>=1.16.5', 'scipy>=1.3.1', 'pandas>=0.25.1', 'scikit-learn>=0.21.3'],
-      # install_requires=min_deps.tag_to_packages['install'],
+      description="A python implementation of 'Centerless Clustering', TPAMI, 2022",
+      url="https://github.com/ShenfeiPei/CenterlessClustering",
+      install_requires=['numpy>=1.20.3', 'scipy>=1.5.3', 'pandas>=1.2.3', 'scikit-learn>=0.23.2'],
       classifiers=['Intended Audience :: Science/Research',
                    'Intended Audience :: Developers',
                    'License :: OSI Approved :: MIT License',
-                   'Programming Language :: C',
+                   'Programming Language :: C++',
                    'Programming Language :: Python',
                    'Topic :: Software Development',
                    'Topic :: Scientific/Engineering',
-                   'Operating System :: Microsoft :: Windows',
-                   'Programming Language :: Python :: 3.7',
+                   'Operating System :: OS Independent',
+                   'Programming Language :: Python :: 3.8',
                    ('Programming Language :: Python :: '
                     'Implementation :: CPython')
                    ],
-      cmdclass={'sdist': sdist},
-      python_requires=">=3.6",
+      cmdclass={'clean': CleanCommand, 'sdist': sdist},
+      python_requires=">=3.8",
       configuration=configuration)
