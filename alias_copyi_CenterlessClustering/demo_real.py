@@ -1,8 +1,6 @@
 import os
 import time
 import numpy as np
-import sys
-sys.path.append("/home/pei/CenterlessClustering/CC_code")
 from alias_copyi_CenterlessClustering import KSUMS, KSUMSX
 from alias_copyi_CenterlessClustering.Public import Funs, Gfuns, Mfuns
 from alias_copyi_CenterlessClustering import demoapi

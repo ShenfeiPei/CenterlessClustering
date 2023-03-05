@@ -2,8 +2,9 @@
 
 ### install
 ```
-pip install alias_copyi_module_CenterlessClustering
-
+git clone git@github.com:ShenfeiPei/CenterlessClustering.git
+cd CenterlessClustering
+python setup.py install
 ```
 
 ### usage:
