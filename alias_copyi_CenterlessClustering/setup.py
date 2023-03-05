@@ -4,7 +4,7 @@ import os
 def configuration(parent_package='', top_path=None):
     from numpy.distutils.misc_util import Configuration
 
-    config = Configuration('alias_copyi_module_CenterlessClustering', parent_package, top_path)
+    config = Configuration('alias_copyi_CenterlessClustering', parent_package, top_path)
     config.add_subpackage('KSUMS2')
     config.add_subpackage('KSUMSX_eigen')
     config.add_subpackage('Public')

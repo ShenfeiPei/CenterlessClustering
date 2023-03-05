@@ -179,7 +179,7 @@ def kmeans(X, c, rep, init="random", mini_batch=False):
             Y[i, :] = MiniBatchKMeans(n_clusters=c, n_init=1, init=init).fit(X).predict(X)
     else:
         for i in range(rep):
-            Y[i, :] = KMeans(n_clusters=c, n_init=1, init=init, algorithm="full").fit(X).labels_
+            Y[i, :] = KMeans(n_clusters=c, n_init=1, init=init, algorithm="lloyd").fit(X).labels_
     return Y
 
 

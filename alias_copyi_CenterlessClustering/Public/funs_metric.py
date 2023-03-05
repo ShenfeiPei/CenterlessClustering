@@ -1,4 +1,3 @@
-
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -33,6 +32,12 @@ def recall(y_true, y_pred):
 def multi_recall(y_true, Y):
     ret = np.array([recall(y_true=y_true, y_pred=y_pred) for y_pred in Y])
     return ret
+
+def f1(y_true, y_pred):
+    pre = precision(y_true, y_pred)
+    rec = recall(y_true, y_pred)
+    f1 = 2 * pre * rec / (pre + rec)
+    return f1
 
 def multi_f1(y_true, Y):
     pre = multi_precision(y_true, Y)

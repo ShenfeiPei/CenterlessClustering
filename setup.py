@@ -6,7 +6,7 @@ from numpy.distutils.core import setup
 from distutils.command.sdist import sdist
 from numpy.distutils.misc_util import Configuration
 
-module_name = "alias_copyi_module_CenterlessClustering"
+module_name = "alias_copyi_CenterlessClustering"
 
 class CleanCommand(Clean):
     description = "Remove build artifacts from the source tree"
@@ -18,8 +18,15 @@ class CleanCommand(Clean):
         remove_c_files = not os.path.exists(os.path.join(cwd, 'PKG-INFO'))
         if remove_c_files:
             print('Will remove generated .c files')
+
         if os.path.exists('build'):
             shutil.rmtree('build')
+
+        if os.path.exists('dist'):
+            shutil.rmtree('dist')
+
+        if os.path.exists('__pycache__'):
+            shutil.rmtree('__pycache__')
         
         egg_info_path = f"{module_name}.egg-info"
         if os.path.exists(egg_info_path):
@@ -56,7 +63,7 @@ def configuration(parent_package='', top_path=None):
 
 
 setup(name=module_name,
-      version="0.0.1",
+      version="0.0.2",
       author="Shenfei Pei",
       author_email="shenfeipei@gmail.com",
       description="A python implementation of 'Centerless Clustering', TPAMI, 2022",
